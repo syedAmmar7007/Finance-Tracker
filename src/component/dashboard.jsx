@@ -5,6 +5,7 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import SummaryCards from "../component/summary-cards";
 import TransactionForm from "../component/transaction-form";
 import TransactionList from "../component/transaction-list";
+import Charts from "../component/charts";
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -44,6 +45,7 @@ const Dashboard = () => {
         <TransactionForm editTx={editTx} clearEdit={() => setEditTx(null)} />
         <TransactionList transactions={transactions} onEdit={setEditTx} />
       </div>
+      <Charts transactions={transactions} />
     </div>
   );
 };
