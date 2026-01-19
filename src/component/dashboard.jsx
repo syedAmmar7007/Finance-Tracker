@@ -9,6 +9,7 @@ import TransactionList from "../component/transaction-list";
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const [transactions, setTransactions] = useState([]);
+  const [editTx, setEditTx] = useState(null);
 
   useEffect(() => {
     if (!user) return;
@@ -40,8 +41,8 @@ const Dashboard = () => {
       <SummaryCards transactions={transactions} />
 
       <div className="grid md:grid-cols-2 gap-6 mt-6">
-        <TransactionForm />
-        <TransactionList transactions={transactions} />
+        <TransactionForm editTx={editTx} clearEdit={() => setEditTx(null)} />
+        <TransactionList transactions={transactions} onEdit={setEditTx} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { db } from "../firebaseConfig/firebaseConfigure";
+import { db } from "../firebaseConfig/firebase-config";
 import { deleteDoc, doc } from "firebase/firestore";
 import { useAuth } from "../store/tracker-store";
 
