@@ -4,6 +4,7 @@ import Login from "./component/login";
 import "./App.css";
 import { TrackerProvider } from "./store/tracker-store";
 import Dashboard from "./component/dashboard";
+import PrivateRoute from "./component/private-routes";
 
 function App() {
   return (
@@ -12,7 +13,14 @@ function App() {
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
     </TrackerProvider>

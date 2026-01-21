@@ -43,40 +43,51 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-zinc-900 via-zinc-800 to-black px-4">
-      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl p-8">
-        <h1 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-[#F8FAF9] px-4">
+      <div className="w-full max-w-md bg-white border border-[#E3E7E5] rounded-2xl shadow-lg p-8">
+        <h1 className="text-4xl font-bold text-center bg-linear-to-r from-green-500 to-teal-400 bg-clip-text text-transparent mb-1">
           Welcome Back
         </h1>
+        <p className="text-center text-sm bg-linear-to-r from-green-400 to-teal-300 bg-clip-text text-transparent mb-6">
+          Log in to manage your finances
+        </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm text-zinc-400 mb-1">
+            <label className="block text-sm text-[#64748B] mb-1">
               Email Address
             </label>
             <input
               {...register("email", { required: "Email is required" })}
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-lg
+              border border-[#E3E7E5] bg-white
+              text-[#0F172A] placeholder-[#94A3B8]
+              focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
             {errors.email && (
-              <p className="text-red-400 text-sm mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.email.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm text-zinc-400 mb-1">Password</label>
+            <label className="block text-sm text-[#64748B] mb-1">
+              Password
+            </label>
             <input
               {...register("password", { required: "Password is required" })}
               type="password"
-              placeholder="Password"
-              className="w-full px-4 py-3 bg-zinc-800 text-white rounded-lg border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="password"
+              className="w-full px-4 py-3 rounded-lg
+              border border-[#E3E7E5] bg-white
+              text-[#0F172A] placeholder-[#94A3B8]
+              focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
             {errors.password && (
-              <p className="text-red-400 text-sm mt-1">
+              <p className="text-red-500 text-sm mt-1">
                 {errors.password.message}
               </p>
             )}
@@ -85,21 +96,18 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full mt-4 py-3 rounded-lg font-semibold transition ${
-              loading
-                ? "bg-zinc-700 text-zinc-400 cursor-not-allowed"
-                : "bg-linear-to-r from-blue-600 to-cyan-500 text-white hover:opacity-90"
-            }`}
+            className={`w-full mt-4 py-3 rounded-lg font-semibold text-white
+              ${loading ? "bg-[#A7F3D0] text-[#065F46] cursor-not-allowed" : "bg-[#16A34A] hover:bg-[#15803D] transition"}`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-zinc-400 mt-6">
+        <p className="text-center text-sm text-[#64748B] mt-6">
           Don’t have an account?{" "}
           <Link
-            to="/"
-            className="text-blue-400 hover:text-blue-300 font-medium"
+            to="/signup"
+            className="text-[#0D9488] hover:underline font-medium"
           >
             Sign up
           </Link>
