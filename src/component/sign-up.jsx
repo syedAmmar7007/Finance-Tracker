@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../store/tracker-store";
 import { useNavigate, Link } from "react-router-dom";
@@ -6,18 +7,29 @@ const Signup = () => {
   const { signup } = useAuth();
   const navigate = useNavigate();
   const { register, handleSubmit, reset, watch } = useForm();
+  const [loading, setLoading] = useState(false);
 
   const password = watch("password");
 
   const onSubmit = async (data) => {
+    if (loading) return;
+    setLoading(true);
+
     try {
-      await signup(data); 
+      await signup(data);
       reset();
       alert("Account created successfully!");
       navigate("/dashboard");
     } catch (err) {
-      console.error(err);
-      alert(err.message);
+      if (err.code === "auth/email-already-in-use") {
+        alert("Email already registered. Please login.");
+      } else if (err.code === "auth/weak-password") {
+        alert("Password must be at least 6 characters.");
+      } else {
+        alert("Something went wrong. Try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,21 +49,19 @@ const Signup = () => {
               Full Name
             </label>
             <input
+              placeholder="Full Name"
               type="text"
               {...register("name", { required: true })}
-              placeholder="Full Name"
               className="w-full px-4 py-3 rounded-lg border border-[#E3E7E5] bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-[#64748B] mb-1">
-              Email address
-            </label>
+            <label className="block text-sm text-[#64748B] mb-1">Email</label>
             <input
+              placeholder="Email"
               type="email"
               {...register("email", { required: true })}
-              placeholder="Email"
               className="w-full px-4 py-3 rounded-lg border border-[#E3E7E5] bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
           </div>
@@ -61,23 +71,23 @@ const Signup = () => {
               Password
             </label>
             <input
+              placeholder="Password"
               type="password"
               {...register("password", { required: true })}
-              placeholder="Password"
               className="w-full px-4 py-3 rounded-lg border border-[#E3E7E5] bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
           </div>
 
           <div>
             <label className="block text-sm text-[#64748B] mb-1">
-              Confirm password
+              Confirm Password
             </label>
             <input
+              placeholder="Confirm Password"
               type="password"
               {...register("confirmPassword", {
                 validate: (v) => v === password || "Passwords do not match",
               })}
-              placeholder="Confirm Password"
               className="w-full px-4 py-3 rounded-lg border border-[#E3E7E5] bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
           </div>
@@ -87,27 +97,25 @@ const Signup = () => {
               Monthly Budget (optional)
             </label>
             <input
+              placeholder="Monthly Budget"
               type="number"
               {...register("monthlyBudget")}
-              placeholder="Monthly Budget"
               className="w-full px-4 py-3 rounded-lg border border-[#E3E7E5] bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#16A34A]"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full mt-4 py-3 rounded-lg font-semibold text-white bg-[#16A34A] hover:bg-[#15803D] transition"
+            disabled={loading}
+            className="w-full mt-4 py-3 rounded-lg font-semibold text-white bg-[#16A34A] hover:bg-[#15803D] transition disabled:opacity-60"
           >
-            Create account
+            {loading ? "Creating..." : "Create account"}
           </button>
         </form>
 
         <p className="text-center text-sm text-[#64748B] mt-6">
           Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-[#0D9488] hover:underline font-medium"
-          >
+          <Link to="/login" className="text-[#0D9488] font-medium">
             Log in
           </Link>
         </p>

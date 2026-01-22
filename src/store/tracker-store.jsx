@@ -16,26 +16,30 @@ export const TrackerProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
 
   const signup = async ({ name, email, password, monthlyBudget }) => {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
+    const normalizedEmail = email.toLowerCase();
+
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      normalizedEmail,
+      password,
+    );
+
     const user = res.user;
 
-    await setDoc(doc(db, "users", user.uid), {
+    const profileData = {
       uid: user.uid,
       name,
-      email,
+      email: normalizedEmail,
       monthlyBudget: Number(monthlyBudget) || 0,
       createdAt: Date.now(),
-    });
+    };
 
-    setProfile({
-      uid: user.uid,
-      name,
-      email,
-      monthlyBudget: Number(monthlyBudget) || 0,
-    });
+    await setDoc(doc(db, "users", user.uid), profileData);
+
+    setProfile(profileData);
     setUser(user);
 
-    return res;
+    return user;
   };
 
   const login = (email, password) =>
